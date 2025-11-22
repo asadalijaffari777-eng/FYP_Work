@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clothing Business Assistant - Register</title>
+    <title>Clothing Business Assistant - Login</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="register-page">
+<body class="login-page">
     <header>
         <div class="container header-container">
             <div class="logo">Clothing Business Assistant</div>
             <nav class="nav-links">
-                <a href="index.html">Home</a>
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
+                <a href="index.ejs">Home</a>
+                <a href="login.ejs">Login</a>
+                <a href="register.ejs">Register</a>
             </nav>
         </div>
     </header>
@@ -21,24 +21,20 @@
     <main class="container">
         <div class="auth-container">
             <div class="auth-form">
-                <h2>Create an Account</h2>
-                <form id="registerForm">
+                <h2>Login to Your Account</h2>
+                <form id="loginForm">
                     <div class="form-group">
-                        <label for="registerName">Name</label>
-                        <input type="text" id="registerName" required>
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" required>
                     </div>
                     <div class="form-group">
-                        <label for="registerEmail">Email</label>
-                        <input type="email" id="registerEmail" required>
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" required>
                     </div>
-                    <div class="form-group">
-                        <label for="registerPassword">Password</label>
-                        <input type="password" id="registerPassword" required>
-                    </div>
-                    <button type="submit" class="btn btn-block">Register</button>
+                    <button type="submit" class="btn btn-block">Login</button>
                 </form>
                 <div class="auth-switch">
-                    <p>Already have an account? <a href="login.html">Login</a></p>
+                    <p>Don't have an account? <a href="register.ejs">Register</a></p>
                 </div>
             </div>
         </div>
