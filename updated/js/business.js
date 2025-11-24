@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('businessSelections', JSON.stringify(selectedItems));
             
             alert('Your selections have been submitted! Redirecting to manufacturers page...');
-            window.location.href = 'manufacturer.html';
+            window.location.href = '/manufacturer';
         });
     }
     

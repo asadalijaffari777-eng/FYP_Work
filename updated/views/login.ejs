@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Business Assistant - Login</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="login-page">
+
+<% if (typeof popup !== "undefined") { %>
+<script>
+    showPopup("<%= popup.title %>", "<%= popup.message %>");
+</script>
+<% } %>
+
+    <header>
+        <div class="container header-container">
+            <div class="logo">Clothing Business Assistant</div>
+            <nav class="nav-links">
+                <a href="/index">Home</a>
+                <a href="/">Login</a>
+                <a href="/register">Register</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="auth-container">
+            <div class="auth-form">
+                <h2>Login to Your Account</h2>
+                <form id="loginForm" action="/login" method="post">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" name="loginEmail" required
+                        required autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword"  name="loginPassword" required>
+                    </div>
+                    <button type="submit" class="btn btn-block">Login</button>
+                </form>
+                <div class="auth-switch">
+                    <p>Don't have an account? <a href="/register">Register</a></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Animated Background Elements -->
+    <div class="animated-bg">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+    </div>
+
+    <style>
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .floating-shape {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(52, 152, 219, 0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .shape-1 {
+            width: 200px;
+            height: 200px;
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+        
+        .shape-2 {
+            width: 150px;
+            height: 150px;
+            top: 60%;
+            right: 10%;
+            animation-delay: 2s;
+        }
+        
+        .shape-3 {
+            width: 100px;
+            height: 100px;
+            bottom: 20%;
+            left: 20%;
+            animation-delay: 4s;
+        }
+    </style>
+
+
+<!-- Custom Popup Modal -->
+<div id="popup" class="popup-overlay">
+    <div class="popup-box">
+        <div class="popup-icon">i</div>
+        <h2 id="popup-title">Error</h2>
+        <p id="popup-message">Something went wrong.</p>
+
+        <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+</div>
+
+<style>
+    /* OVERLAY */
+    .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.4);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
+
+    /* POPUP BOX */
+    .popup-box {
+        background: #fff;
+        width: 350px;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        animation: pop 0.3s ease-out;
+    }
+
+    @keyframes pop {
+        from { transform: scale(0.8); opacity: 0; }
+        to   { transform: scale(1); opacity: 1; }
+    }
+
+    /* ICON */
+    .popup-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        background: #FFCC00;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 30px;
+        color: white;
+        font-weight: bold;
+    }
+
+    /* BUTTON */
+    .popup-btn {
+        background: #1E4BD8;
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    .popup-btn:hover {
+        background: #1639a8;
+    }
+</style>
+
+<script>
+    function showPopup(title, message) {
+        document.getElementById('popup-title').innerText = title;
+        document.getElementById('popup-message').innerText = message;
+        document.getElementById('popup').style.display = "flex";
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = "none";
+    }
+</script>
+
+<% if (typeof popup !== "undefined") { %>
+<script>
+    showPopup("<%= popup.title %>", "<%= popup.message %>");
+</script>
+<% } %>
+
+
+
+    <script src="/script.js"></script>
+</body>
+</html>

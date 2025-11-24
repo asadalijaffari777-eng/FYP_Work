@@ -1,146 +1,126 @@
-// Form handling for login and registration ONLY
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Main JS loaded');
-    
-    // Add particles to background
+
+    // Add particles background
     createParticles();
-    
-    // Login form handling
+
+    // Handle Login Form
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
+            e.preventDefault(); // prevent default for animation
+
             const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            
-            // Simple validation with animation
+
             if (email && password) {
-                // Show loading animation
-                const submitBtn = this.querySelector('.btn-block');
+                const submitBtn = loginForm.querySelector('button[type="submit"]');
                 showLoadingAnimation(submitBtn);
-                
-                // Simulate API call
-                setTimeout(() => {
+
+                // Wait for animation, then submit using fetch
+                setTimeout(async () => {
                     hideLoadingAnimation(submitBtn);
-                    showSuccessAnimation(this);
-                    setTimeout(() => {
-                        alert('Login successful! Redirecting to home page...');
-                        window.location.href = 'index.html';
-                    }, 1000);
-                }, 2000);
+                    showSuccessAnimation(loginForm);
+
+                    try {
+                        const response = await fetch('/login', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: `loginEmail=${encodeURIComponent(email)}&loginPassword=${encodeURIComponent(password)}`
+                        });
+
+                        const text = await response.text();
+                        if (response.ok) {
+                            // If backend renders a page, replace current page
+                            document.open();
+                            document.write(text);
+                            document.close();
+                        } else {
+                            alert(text);
+                        }
+                    } catch (err) {
+                        alert('Error connecting to server.');
+                        console.error(err);
+                    }
+
+                }, 500); // half second animation
             } else {
-                showErrorAnimation(this);
+                showErrorAnimation(loginForm);
                 alert('Please fill in all fields');
             }
         });
-        
-        // Add input animations
-        addInputAnimations(loginForm);
     }
-    
-    // Registration form handling
+
+    // Handle Registration Form (same as before, fixed for fetch)
     const registerForm = document.getElementById('registerForm');
     if (registerForm) {
         registerForm.addEventListener('submit', function(e) {
             e.preventDefault();
+
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            
-            // Simple validation with animation
+
             if (name && email && password) {
-                // Show loading animation
-                const submitBtn = this.querySelector('.btn-block');
+                const submitBtn = registerForm.querySelector('button[type="submit"]');
                 showLoadingAnimation(submitBtn);
-                
-                // Simulate API call
-                setTimeout(() => {
+
+                setTimeout(async () => {
                     hideLoadingAnimation(submitBtn);
-                    showSuccessAnimation(this);
-                    setTimeout(() => {
-                        alert('Registration successful! Please login.');
-                        window.location.href = 'login.html';
-                    }, 1000);
-                }, 2000);
+                    showSuccessAnimation(registerForm);
+
+                    try {
+                        const response = await fetch('/register', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                            body: `registerName=${encodeURIComponent(name)}&registerEmail=${encodeURIComponent(email)}&registerPassword=${encodeURIComponent(password)}`
+                        });
+
+                        const text = await response.text();
+                        document.open();
+                        document.write(text);
+                        document.close();
+                    } catch (err) {
+                        alert('Error connecting to server.');
+                        console.error(err);
+                    }
+
+                }, 500);
             } else {
-                showErrorAnimation(this);
+                showErrorAnimation(registerForm);
                 alert('Please fill in all fields');
             }
         });
-        
-        // Add input animations
-        addInputAnimations(registerForm);
     }
-    
-    // Animation functions
+
+    // --- Animation functions ---
     function showLoadingAnimation(button) {
-        button.classList.add('btn-loading');
         button.disabled = true;
+        button.innerText = 'Processing...';
     }
-    
+
     function hideLoadingAnimation(button) {
-        button.classList.remove('btn-loading');
         button.disabled = false;
+        button.innerText = button.tagName === 'BUTTON' ? 'Submit' : button.innerText;
     }
-    
+
     function showSuccessAnimation(form) {
         form.style.animation = 'none';
-        form.offsetHeight; // Trigger reflow
+        form.offsetHeight;
         form.style.animation = 'pulse 0.6s ease-in-out';
-        
-        // Add success checkmark animation
-        const submitBtn = form.querySelector('.btn-block');
-        submitBtn.innerHTML = '✓ Success!';
-        submitBtn.style.backgroundColor = '#2ecc71';
     }
-    
+
     function showErrorAnimation(form) {
         form.style.animation = 'none';
-        form.offsetHeight; // Trigger reflow
+        form.offsetHeight;
         form.style.animation = 'shake 0.5s ease-in-out';
-        
-        // Highlight empty fields
-        const inputs = form.querySelectorAll('input');
-        inputs.forEach(input => {
-            if (!input.value) {
-                input.style.animation = 'shake 0.5s ease-in-out';
-                setTimeout(() => {
-                    input.style.animation = '';
-                }, 500);
-            }
-        });
     }
-    
-    function addInputAnimations(form) {
-        const inputs = form.querySelectorAll('input');
-        
-        inputs.forEach((input, index) => {
-            // Add focus animations
-            input.addEventListener('focus', function() {
-                this.parentElement.style.transform = 'scale(1.02)';
-                this.parentElement.style.zIndex = '1';
-            });
-            
-            input.addEventListener('blur', function() {
-                this.parentElement.style.transform = 'scale(1)';
-                this.parentElement.style.zIndex = '0';
-            });
-            
-            // Add typing animation
-            input.addEventListener('input', function() {
-                if (this.value.length > 0) {
-                    this.style.background = 'linear-gradient(90deg, rgba(46, 204, 113, 0.1) 0%, rgba(255, 255, 255, 0.9) 100%)';
-                } else {
-                    this.style.background = 'rgba(255, 255, 255, 0.9)';
-                }
-            });
-        });
-    }
-    
+
+    // --- Particle Background ---
     function createParticles() {
-        const particlesContainer = document.createElement('div');
-        particlesContainer.className = 'particles-container';
-        particlesContainer.style.cssText = `
+        const container = document.createElement('div');
+        container.className = 'particles-container';
+        container.style.cssText = `
             position: fixed;
             top: 0;
             left: 0;
@@ -149,26 +129,23 @@ document.addEventListener('DOMContentLoaded', function() {
             pointer-events: none;
             z-index: -1;
         `;
-        document.body.appendChild(particlesContainer);
-        
-        // Create 15 particles
+        document.body.appendChild(container);
+
         for (let i = 0; i < 15; i++) {
-            setTimeout(() => {
-                createParticle(particlesContainer);
-            }, i * 200);
+            setTimeout(() => createParticle(container), i * 200);
         }
     }
-    
+
     function createParticle(container) {
         const particle = document.createElement('div');
         particle.className = 'particle';
-        
+
         const size = Math.random() * 8 + 2;
         const posX = Math.random() * 100;
         const posY = Math.random() * 100;
         const delay = Math.random() * 5;
         const duration = Math.random() * 10 + 10;
-        
+
         particle.style.cssText = `
             width: ${size}px;
             height: ${size}px;
@@ -176,14 +153,16 @@ document.addEventListener('DOMContentLoaded', function() {
             top: ${posY}%;
             animation-delay: ${delay}s;
             animation-duration: ${duration}s;
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(52, 152, 219, 0.2);
         `;
-        
+
         container.appendChild(particle);
-        
-        // Remove particle after animation completes
+
         setTimeout(() => {
             particle.remove();
-            createParticle(container); // Create new particle
+            createParticle(container);
         }, duration * 1000);
     }
 });
